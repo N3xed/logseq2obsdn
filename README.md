@@ -1,4 +1,5 @@
 # Convert logseq files to obsidian
+**Use at your own risk!**
 
 1. Install the [Rust programming language](https://www.rust-lang.org/tools/install).
 2. Run 
@@ -11,3 +12,4 @@
    cargo run -- "<logseq-dir>/pages/<file>" "<obsidian-vault-dir>"
    ```
    for each `<file>` in the `pages` dir.
+
