@@ -8,6 +8,6 @@
    - This will extract all IDs and create a `ids.json` file in the current directory.
 3. Run 
    ```bash
-   cargo run -- "<logseq-dir>/pages/<file>" "<obsidian-vault-dir>
+   cargo run -- "<logseq-dir>/pages/<file>" "<obsidian-vault-dir>"
    ```
    for each `<file>` in the `pages` dir.
