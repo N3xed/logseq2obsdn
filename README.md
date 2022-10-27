@@ -13,3 +13,17 @@
    ```
    for each `<file>` in the `pages` dir.
 
+## Notes
+
+The script gets the name of the file to convert from the `title:: <Title>` property at the beginning of the logseq file, this property only exists if the file is in a namespace. It copies all assets of the converted file into the `assets` subdirectory of the destination folder. **The assets folder will be created manually, otherwise the script will fail to copy the assets.**
+
+A block that is tagged with `#.self-border` (see [logtools](https://github.com/cannibalox/logtools)) will be converted to a callout (using the obsidian Admonition extension) in the form:
+
+````
+```ad-def
+**<Tagged block>**
+
+<sub blocks>
+```
+
+````
