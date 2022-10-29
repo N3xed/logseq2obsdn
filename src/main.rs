@@ -100,15 +100,16 @@ fn main() -> Result<()> {
             if !entry.path().extension().map(|e| e == "md").unwrap_or(false) {
                 continue;
             }
+            eprintln!("Extracting ids from '{}'", entry.path().display());
             let page_file = std::fs::read_to_string(entry.path())?;
-            page::Page::parse(&page_file, &mut data)?;
+            page::Page::parse(&entry.path(), &page_file, &mut data)?;
         }
 
         let ids_w = BufWriter::new(std::fs::File::create(ids_file)?);
         serde_json::to_writer_pretty(ids_w, &data.refs_file)?;
     } else {
         let page_file = std::fs::read_to_string(&args.file_or_folder)?;
-        let mut page = page::Page::parse(&page_file, &mut data)?;
+        let mut page = page::Page::parse(&args.file_or_folder, &page_file, &mut data)?;
         page.transform(&mut data);
 
         println!("{:#?}", page);

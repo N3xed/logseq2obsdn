@@ -1,6 +1,8 @@
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
+use std::ffi::OsStr;
 use std::hash::{Hash, Hasher};
+use std::path::Path;
 
 use anyhow::Result;
 use itertools::Itertools;
@@ -457,9 +459,9 @@ impl Page {
         format!("{alias}{blocks}")
     }
 
-    pub fn parse(text: &str, data: &mut dyn Data) -> Result<Self> {
+    pub fn parse(file_name: &Path, text: &str, data: &mut dyn Data) -> Result<Self> {
         let (title, alias) = {
-            let mut title = String::new();
+            let mut title = None;
             let mut alias = vec![];
 
             for (prop, val) in text
@@ -470,11 +472,20 @@ impl Page {
             {
                 match prop {
                     Prop::Alias => alias.push(val.to_string()),
-                    Prop::Title => title = val.to_string(),
+                    Prop::Title => title = Some(val.to_string()),
                     _ => (),
                 }
             }
-            (title, alias)
+            (
+                title.unwrap_or(
+                    file_name
+                        .file_stem()
+                        .unwrap_or(OsStr::new(""))
+                        .to_string_lossy()
+                        .into(),
+                ),
+                alias,
+            )
         };
         data.page_title(&title);
 
